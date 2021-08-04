@@ -39,8 +39,8 @@ const Update = async () => {
                     return null;
 
                 rows.push({
-                    url: item.url,
-                    ...request
+                    ...request,
+                    url: item.url
                 })
             }
         }));
@@ -49,15 +49,15 @@ const Update = async () => {
 
             urls.map(old => {
                 if (old.url === item.url) {
-                    if (old.count !== item.count) {
+                    if (old.count === item.count) {
                         chrome.notifications.create(`notify-${index}`, {
                             type: 'basic',
-                            iconUrl: '../badge.svg',
+                            iconUrl: item.image,
                             title: 'فروش جدید!',
-                            message: `:: ${item.name} ${"\n"}تعداد فروش : ${item.count - urls[index].count}`,
+                            contextMessage: `${item.name}`,
+                            priority: 2,
+                            message: ` فروش جدید: ${item.count - old.count}${"\n"}فروش کل: ${parseInt(item.count).toLocaleString("en-US")}`,
                         })
-                        let yourSound = new Audio('../notification.mp3');
-                        yourSound.play();
                     }
                 }
             })
@@ -65,8 +65,9 @@ const Update = async () => {
         })
 
         // Update
-        if (rows.length === urls.length)
+        if (rows.length === urls.length) {
             chrome.storage.local.set({'urls': JSON.stringify(rows)});
+        }
     });
 }
 
@@ -76,3 +77,4 @@ chrome.alarms.onAlarm.addListener(function (alarm) {
         Update();
     }
 });
+
