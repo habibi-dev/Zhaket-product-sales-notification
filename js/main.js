@@ -160,7 +160,7 @@ window.addEventListener("load", function () {
                 return null;
 
             let urls = JSON.parse(value.urls);
-            console.log(urls);
+
             let rows = [];
 
             urls.sort(function (a, b) {
