@@ -91,6 +91,7 @@ window.addEventListener("load", function () {
             // Update
             if (rows.length === urls.length) {
                 chrome.storage.local.set({'urls': JSON.stringify(rows)});
+                Compiler();
             }
         });
     }
@@ -119,9 +120,8 @@ window.addEventListener("load", function () {
                     return null;
 
                 urls.push({
-                    'name': item.name,
+                    ...item,
                     'url': url.value,
-                    'count': item.count,
                 });
 
                 // Update
@@ -169,7 +169,7 @@ window.addEventListener("load", function () {
 
             urls.map((item, index) => {
                 if (item && item.hasOwnProperty('url'))
-                    rows.push(`<tr><td class="text-start"><h2>:: <a href="${item.url}" target="_blank">${item.name}</a></h2></td>
+                    rows.push(`<tr><td><img src="${item.image}" alt="${item.name}" width="24"></td><td class="text-start"><h2>:: <a href="${item.url}" target="_blank">${item.name}</a></h2></td>
             <td><span>${parseInt(item.count).toLocaleString("en-US")}</span></td><td>
             <span type="button" class="badge small bg-danger remove" data-id="${index}">${'حذف'}</span></td></tr>`)
             });
@@ -196,7 +196,7 @@ window.addEventListener("load", function () {
             })
         })
     }
-    setInterval(() => Compiler(), 1000)
+    Compiler();
 
     // select time
     chrome.alarms.get("zhaket-checker").then(r => {
