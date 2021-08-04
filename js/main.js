@@ -160,7 +160,7 @@ window.addEventListener("load", function () {
                 return null;
 
             let urls = JSON.parse(value.urls);
-
+            console.log(urls);
             let rows = [];
 
             urls.sort(function (a, b) {
@@ -184,7 +184,9 @@ window.addEventListener("load", function () {
                 item.addEventListener('click', (e) => {
                     const id = e.target.getAttribute('data-id');
 
-                    delete urls[id];
+                    urls = urls.filter(function (value, index, arr) {
+                        return index !== parseInt(id);
+                    });
 
                     // Update
                     chrome.storage.local.set({'urls': JSON.stringify(urls)});
