@@ -10,6 +10,15 @@
     "storage",
     "notifications"
   ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "badge.svg",
+        "notification.mp3"
+      ],
+      "use_dynamic_url": true
+    }
+  ],
   "action": {
     "default_title": "Zhaket product sales notification",
     "default_icon": "badge.png",
