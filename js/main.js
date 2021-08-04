@@ -62,8 +62,8 @@ window.addEventListener("load", function () {
                         return null;
 
                     rows.push({
-                        url: item.url,
-                        ...request
+                        ...request,
+                        url: item.url
                     })
                 }
             }));
@@ -75,12 +75,13 @@ window.addEventListener("load", function () {
                         if (old.count !== item.count) {
                             chrome.notifications.create(`notify-${index}`, {
                                 type: 'basic',
-                                iconUrl: '../badge.svg',
+                                iconUrl: item.image,
                                 title: 'فروش جدید!',
-                                message: `:: ${item.name} ${"\n"}تعداد فروش : ${item.count - urls[index].count}`,
+                                contextMessage: `${item.name}`,
+                                priority: 2,
+                                message: ` فروش جدید: ${item.count - old.count}${"\n"}فروش کل: ${parseInt(item.count).toLocaleString("en-US")}`,
                             })
-                            let yourSound = new Audio('../notification.mp3');
-                            yourSound.play();
+                            new Audio('../notification.mp3').play();
                         }
                     }
                 })
@@ -88,13 +89,13 @@ window.addEventListener("load", function () {
             })
 
             // Update
-            if (rows.length === urls.length)
+            if (rows.length === urls.length) {
                 chrome.storage.local.set({'urls': JSON.stringify(rows)});
+            }
         });
     }
 
     setInterval(Update, 10000);
-
 
     // add db
     document.querySelector('button.btn.btn-sm.btn-primary.create-url').addEventListener('click', () => {
@@ -144,7 +145,6 @@ window.addEventListener("load", function () {
         // Remove old alert
         chrome.alarms.clear('zhaket-checker');
 
-        console.log(e.target.value);
         // add new time
         chrome.alarms.create("zhaket-checker", {
             delayInMinutes: parseInt(e.target.value),
@@ -162,6 +162,10 @@ window.addEventListener("load", function () {
             let urls = JSON.parse(value.urls);
 
             let rows = [];
+
+            urls.sort(function (a, b) {
+                return a.count - b.count;
+            }).reverse();
 
             urls.map((item, index) => {
                 if (item && item.hasOwnProperty('url'))
