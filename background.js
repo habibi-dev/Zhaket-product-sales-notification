@@ -49,7 +49,7 @@ const Update = async () => {
 
             urls.map(old => {
                 if (old.url === item.url) {
-                    if (old.count === item.count) {
+                    if (old.count !== item.count) {
                         chrome.notifications.create(`notify-${index}`, {
                             type: 'basic',
                             iconUrl: item.image,
