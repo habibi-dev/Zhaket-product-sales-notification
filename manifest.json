@@ -1,0 +1,23 @@
+{
+  "name": "Zhaket product sales notification",
+  "version": "1.0.0",
+  "manifest_version": 3,
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": [
+    "alarms",
+    "storage",
+    "notifications"
+  ],
+  "action": {
+    "default_title": "Zhaket product sales notification",
+    "default_icon": "badge.png",
+    "default_popup": "popup.html"
+  },
+  "icons": {
+    "16": "badge.png",
+    "48": "badge.png",
+    "128": "badge.png"
+  }
+}
