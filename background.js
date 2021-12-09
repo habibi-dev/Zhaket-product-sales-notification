@@ -52,7 +52,7 @@ const Update = async () => {
                     if (old.count !== item.count) {
                         chrome.notifications.create(`notify-${index}`, {
                             type: 'basic',
-                            iconUrl: item.image,
+                            iconUrl: 'badge.png',
                             title: 'فروش جدید!',
                             contextMessage: `${item.name}`,
                             priority: 2,
